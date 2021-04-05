@@ -104,29 +104,26 @@ with serial.Serial(PORT, BAUD) as ser:
             if pid_response is not None:
                 data = data+"\n"+str(int(time.time()-start_time)) + \
                     ","+pid+","+",".join(pid_response)
-        try:
-            ax, ay, az, wx, wy, wz = mpu6050_conv()
-            data = (data+"\n"+str(int(time.time()-start_time)) +
-                    ",AX,"+","+str(ax) +
+        ax, ay, az, wx, wy, wz = mpu6050_conv()
+        data = (data+"\n"+str(int(time.time()-start_time)) +
+                ",AX,"+","+str(ax) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",AY,"+","+str(ay) +
+                ",AY,"+","+str(ay) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",AZ,"+","+str(az) +
+                ",AZ,"+","+str(az) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",WX,"+","+str(wx) +
+                ",WX,"+","+str(wx) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",WY,"+","+str(wy) +
+                ",WY,"+","+str(wy) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",WZ,"+","+str(wz))
-            mx, my, mz = AK8963_conv()
-            data = (data+"\n"+str(int(time.time()-start_time)) +
-                    ",MX,"+","+str(mx) +
+                ",WZ,"+","+str(wz))
+        mx, my, mz = AK8963_conv()
+        data = (data+"\n"+str(int(time.time()-start_time)) +
+                ",MX,"+","+str(mx) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",MY,"+","+str(my) +
+                ",MY,"+","+str(my) +
                     +"\n"+str(int(time.time()-start_time)) +
-                    ",MZ,"+","+str(mz))
-        except Exception as e:
-            print(e)
+                ",MZ,"+","+str(mz))
         print(data)
         r = requests.post(SERVER_ADDRESS+"/data", data,
                           headers={"device_session": device_session})
