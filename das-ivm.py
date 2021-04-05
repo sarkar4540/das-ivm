@@ -2,6 +2,7 @@ import serial
 import time
 import requests
 import subprocess
+from mpu9250 import *
 
 PORT = "/dev/pts/2"
 DEPLOYED = False
@@ -103,6 +104,29 @@ with serial.Serial(PORT, BAUD) as ser:
             if pid_response is not None:
                 data = data+"\n"+str(int(time.time()-start_time)) + \
                     ","+pid+","+",".join(pid_response)
+        try:
+            ax, ay, az, wx, wy, wz = mpu6050_conv()
+            data = data+"\n"+str(int(time.time()-start_time)) + \
+                ",AX,"+",".join(ax) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",AY,"+",".join(ay) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",AZ,"+",".join(az) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",WX,"+",".join(wx) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",WY,"+",".join(wy) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",WZ,"+",".join(wz)
+            mx, my, mz = AK8963_conv()
+            data = data+"\n"+str(int(time.time()-start_time)) + \
+                ",MX,"+",".join(mx) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",MY,"+",".join(my) + \
+                +"\n"+str(int(time.time()-start_time)) + \
+                ",MZ,"+",".join(mz)
+        except Exception as e:
+            print(e)
         r = requests.post(SERVER_ADDRESS+"/data", data,
                           headers={"device_session": device_session})
         print(r.text)
