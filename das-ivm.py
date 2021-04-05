@@ -70,7 +70,7 @@ with serial.Serial(PORT, BAUD) as ser:
     for index in range(0, 255, 32):
         current_cmd = "01"+format(index, '0>2x').upper()
         response = command(ser, current_cmd).split('\r')
-        print(current_cmd+" : "+str(response))
+        print(current_cmd+" : " + str(response))
         response_ok = False
         scan_next = False
         for response_line in response:
@@ -102,28 +102,28 @@ with serial.Serial(PORT, BAUD) as ser:
         for pid in SUPPORTED_PIDS:
             pid_response = pid_command(ser, pid)
             if pid_response is not None:
-                data = data+"\n"+str(int(time.time()-start_time)) + \
+                data = data+"\n" + str(int(time.time()-start_time)) + \
                     ","+pid+","+",".join(pid_response)
         ax, ay, az, wx, wy, wz = mpu6050_conv()
-        data = (data+"\n"+str(int(time.time()-start_time)) +
-                ",AX,"+","+str(ax) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",AY,"+","+str(ay) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",AZ,"+","+str(az) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",WX,"+","+str(wx) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",WY,"+","+str(wy) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",WZ,"+","+str(wz))
+        data = (data + "\n" + str(int(time.time()-start_time)) +
+                ",AX," + "," + str(ax) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",AY," + "," + str(ay) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",AZ,"+"," + str(az) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",WX,"+"," + str(wx) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",WY,"+"," + str(wy) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",WZ,"+"," + str(wz))
         mx, my, mz = AK8963_conv()
-        data = (data+"\n"+str(int(time.time()-start_time)) +
-                ",MX,"+","+str(mx) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",MY,"+","+str(my) +
-                    +"\n"+str(int(time.time()-start_time)) +
-                ",MZ,"+","+str(mz))
+        data = (data+"\n" + str(int(time.time()-start_time)) +
+                ",MX,"+"," + str(mx) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",MY,"+"," + str(my) +
+                "\n" + str(int(time.time()-start_time)) +
+                ",MZ,"+"," + str(mz))
         print(data)
         r = requests.post(SERVER_ADDRESS+"/data", data,
                           headers={"device_session": device_session})
