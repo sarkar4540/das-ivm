@@ -107,26 +107,27 @@ with serial.Serial(PORT, BAUD) as ser:
         try:
             ax, ay, az, wx, wy, wz = mpu6050_conv()
             data = data+"\n"+str(int(time.time()-start_time)) + \
-                ",AX,"+",".join(ax) + \
+                ",AX,"+","+str(ax) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",AY,"+",".join(ay) + \
+                ",AY,"+","+str(ay) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",AZ,"+",".join(az) + \
+                ",AZ,"+","+str(az) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",WX,"+",".join(wx) + \
+                ",WX,"+","+str(wx) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",WY,"+",".join(wy) + \
+                ",WY,"+","+str(wy) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",WZ,"+",".join(wz)
+                ",WZ,"+","+str(wz)
             mx, my, mz = AK8963_conv()
             data = data+"\n"+str(int(time.time()-start_time)) + \
-                ",MX,"+",".join(mx) + \
+                ",MX,"+","+str(mx) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",MY,"+",".join(my) + \
+                ",MY,"+","+str(my) + \
                 +"\n"+str(int(time.time()-start_time)) + \
-                ",MZ,"+",".join(mz)
+                ",MZ,"+","+str(mz)
         except Exception as e:
             print(e)
+        print(data)
         r = requests.post(SERVER_ADDRESS+"/data", data,
                           headers={"device_session": device_session})
         print(r.text)
