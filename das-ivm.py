@@ -5,7 +5,7 @@ import subprocess
 from mpu9250 import *
 
 PORT = "/dev/pts/2"
-DEPLOYED = False
+DEPLOYED = True
 BAUD = 115200
 INIT_COMMANDS = ['AT E0', 'AT L0', 'AT H0', 'AT S0', 'AT IB 10']
 INFO_COMMANDS = ['AT I', 'AT @1', 'AT @2', 'AT DP',
