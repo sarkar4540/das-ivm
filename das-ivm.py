@@ -14,7 +14,7 @@ SUPPORTED_PIDS = []
 
 start_time = time.time()
 
-SERVER_ADDRESS = "http://10.21.112.135:3000"
+SERVER_ADDRESS = "http://10.21.160.72:3000"
 process = None
 if DEPLOYED:
     process = subprocess.Popen(
